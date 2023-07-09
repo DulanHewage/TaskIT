@@ -1,9 +1,9 @@
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import BaseInput from "@/components/Base/BaseInput.vue";
 
 describe("BaseInput", () => {
   test("renders the input label when the label prop is provided", () => {
-    const wrapper = mount(BaseInput, {
+    const wrapper = shallowMount(BaseInput, {
       propsData: {
         id: "input-id",
         label: "Input Label",
@@ -17,7 +17,7 @@ describe("BaseInput", () => {
   });
 
   test("does not render the input label when the label prop is not provided", () => {
-    const wrapper = mount(BaseInput, {
+    const wrapper = shallowMount(BaseInput, {
       propsData: {
         id: "input-id",
       },
@@ -28,7 +28,7 @@ describe("BaseInput", () => {
   });
 
   test("renders the input with the provided attributes and classes", () => {
-    const wrapper = mount(BaseInput, {
+    const wrapper = shallowMount(BaseInput, {
       propsData: {
         id: "input-id",
         type: "email",
@@ -44,7 +44,7 @@ describe("BaseInput", () => {
   });
 
   test("applies error classes when the error prop is true", () => {
-    const wrapper = mount(BaseInput, {
+    const wrapper = shallowMount(BaseInput, {
       propsData: {
         id: "input-id",
         label: "Input Label",
@@ -60,7 +60,7 @@ describe("BaseInput", () => {
   });
 
   test("applies default classes when the error prop is false", () => {
-    const wrapper = mount(BaseInput, {
+    const wrapper = shallowMount(BaseInput, {
       propsData: {
         id: "input-id",
         label: "Input Label",

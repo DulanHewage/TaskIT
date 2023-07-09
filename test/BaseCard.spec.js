@@ -1,9 +1,9 @@
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import BaseCard from "@/components/Base/BaseCard.vue";
 
 describe("BaseCard", () => {
   test("renders the card with the provided slot content", () => {
-    const wrapper = mount(BaseCard, {
+    const wrapper = shallowMount(BaseCard, {
       slots: {
         default: "Card content",
       },
@@ -13,7 +13,7 @@ describe("BaseCard", () => {
   });
 
   test("passes down attributes to the card", () => {
-    const wrapper = mount(BaseCard, {
+    const wrapper = shallowMount(BaseCard, {
       attrs: {
         "data-testid": "card",
       },

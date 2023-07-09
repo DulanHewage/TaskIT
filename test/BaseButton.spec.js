@@ -1,14 +1,14 @@
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import BaseButton from "@/components/Base/BaseButton.vue";
 
 describe("BaseButton", () => {
   test("renders without errors", () => {
-    const wrapper = mount(BaseButton);
+    const wrapper = shallowMount(BaseButton);
     expect(wrapper.exists()).toBe(true);
   });
 
   test("renders with default classes when secondary prop is false", () => {
-    const wrapper = mount(BaseButton);
+    const wrapper = shallowMount(BaseButton);
     const button = wrapper.find("button");
 
     expect(button.classes()).toContain("text-white");
@@ -18,7 +18,7 @@ describe("BaseButton", () => {
   });
 
   test("renders with secondary classes when secondary prop is true", () => {
-    const wrapper = mount(BaseButton, {
+    const wrapper = shallowMount(BaseButton, {
       propsData: {
         secondary: true,
       },
@@ -32,7 +32,7 @@ describe("BaseButton", () => {
   });
 
   test("emits a click event when button is clicked", async () => {
-    const wrapper = mount(BaseButton);
+    const wrapper = shallowMount(BaseButton);
     const button = wrapper.find("button");
     // Trigger a click event
     await button.trigger("click");
