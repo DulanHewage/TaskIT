@@ -1,7 +1,7 @@
 <template>
   <button
-    class="font-medium rounded-lg text-sm px-5 py-2.5 mr-1"
-    :class="typeColorClasses"
+    class="font-medium text-sm"
+    :class="[typeColorClasses, borderRadiusClasses]"
     v-bind="$attrs"
     @click="$emit('click')"
   >
@@ -17,6 +17,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    circle: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     typeColorClasses() {
@@ -24,6 +28,12 @@ export default {
         return " text-slate-600 bg-slate-100 hover:bg-slate-200 focus:ring-slate-300";
       }
       return "text-white bg-teal-700 hover:bg-teal-800 focus:ring-teal-300";
+    },
+    borderRadiusClasses() {
+      if (this.circle) {
+        return "rounded-full p-2";
+      }
+      return "rounded-lg px-5 py-2.5";
     },
   },
 };
