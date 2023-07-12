@@ -18,7 +18,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^7.2.96",
     "core-js": "^3.25.3",
+    "nanoid": "^4.0.2",
     "nuxt": "^2.15.8",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
