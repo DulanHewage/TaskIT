@@ -20,7 +20,7 @@
             ></svg-icon>
             <div>6 Apr 2023</div>
           </div>
-          <div class="text-slate-500 ml-2">Created 2 days ago</div>
+          <div class="text-slate-500 ml-2">Created {{ createdDaysAgo }}</div>
         </div>
       </div>
     </div>
@@ -46,6 +46,20 @@ export default {
   computed: {
     mdiCalendarBlank() {
       return mdiCalendarBlank;
+    },
+    createdDaysAgo() {
+      const numberOfDays = this.daysSince(new Date(this.task.createdAt));
+      if (numberOfDays === 0) return "today";
+      if (numberOfDays === 1) return "yesterday";
+      return `${numberOfDays} days ago`;
+    },
+  },
+  methods: {
+    daysSince(date) {
+      const currentDate = new Date();
+      const timeDiff = currentDate.getTime() - date.getTime();
+      const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      return daysDiff;
     },
   },
 };
