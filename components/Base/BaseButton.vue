@@ -17,6 +17,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    danger: {
+      type: Boolean,
+      default: false,
+    },
     circle: {
       type: Boolean,
       default: false,
@@ -26,6 +30,9 @@ export default {
     typeColorClasses() {
       if (this.secondary) {
         return " text-slate-600 bg-slate-100 hover:bg-slate-200 focus:ring-slate-300";
+      }
+      if (this.danger) {
+        return "text-white bg-red-700 hover:bg-red-800 focus:ring-red-300";
       }
       return "text-white bg-teal-700 hover:bg-teal-800 focus:ring-teal-300";
     },

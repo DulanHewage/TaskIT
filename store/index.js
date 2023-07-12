@@ -25,11 +25,11 @@ export const actions = {
     commit("setTasks", [...state.tasks, task]);
     dispatch("syncTasksWithLocalStorage");
   },
-  removeTask({ commit, state, dispatch }, task) {
+  removeTask({ commit, state, dispatch }, taskId) {
     // remove task from state and local storage
     commit(
       "setTasks",
-      state.tasks.filter((item) => item.id !== task.id)
+      state.tasks.filter((item) => item.id !== taskId)
     );
     dispatch("syncTasksWithLocalStorage");
   },

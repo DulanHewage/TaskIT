@@ -21,14 +21,17 @@
         v-for="task in $store.getters.allTasks"
         :key="task.id"
         :task="task"
+        @delete="(taskId) => toggleTaskDeleteConfirmation(taskId, true)"
       />
       <div class="px-4 mt-4 flex items-center">
-        <BaseInput
-          id="task-text"
-          v-model="taskText"
-          placeholder="Add a task"
-          class="w-full"
-        />
+        <form @submit.prevent="addTask" class="w-full">
+          <BaseInput
+            id="task-text"
+            v-model="taskText"
+            placeholder="Add a task"
+            class="w-full"
+          />
+        </form>
         <BaseButton class="ml-2" circle @click="addTask">
           <SvgIcon
             type="mdi"
@@ -39,26 +42,38 @@
         </BaseButton>
       </div>
     </div>
+    <BaseModal
+      :show="showTaskDeleteModal"
+      title="are you sure you want to delete this task?"
+      @close="toggleTaskDeleteConfirmation(null, false)"
+    >
+      <template #footer>
+        <div class="flex justify-end items-center w-full">
+          <BaseButton secondary @click="closeTaskModal" class="mr-2"
+            >Cancel</BaseButton
+          >
+          <BaseButton danger @click="deleteTask(selectedTaskId)"
+            >Delete</BaseButton
+          >
+        </div>
+      </template>
+    </BaseModal>
   </div>
 </template>
 <script>
 import { mdiPlus, mdiReceiptClockOutline } from "@mdi/js";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { nanoid } from "nanoid";
-import TheTask from "./TheTask.vue";
-import BaseInput from "./Base/BaseInput.vue";
-import BaseButton from "./Base/BaseButton.vue";
 export default {
   name: "TheToDo",
   components: {
-    TheTask,
-    BaseInput,
-    BaseButton,
     SvgIcon,
   },
   data() {
     return {
       taskText: "",
+      showTaskDeleteModal: false,
+      selectedTaskId: null,
     };
   },
   computed: {
@@ -82,6 +97,23 @@ export default {
         };
         this.$store.dispatch("addTask", task);
         this.taskText = "";
+      }
+    },
+    closeTaskModal() {
+      this.selectedTaskId = null;
+      this.showTaskModal = false;
+    },
+    deleteTask(taskId) {
+      this.$store.dispatch("removeTask", taskId);
+      this.toggleTaskDeleteConfirmation(null, false);
+    },
+    toggleTaskDeleteConfirmation(taskId, show) {
+      if (show) {
+        this.selectedTaskId = taskId;
+        this.showTaskDeleteModal = true;
+      } else {
+        this.selectedTaskId = null;
+        this.showTaskDeleteModal = false;
       }
     },
   },
