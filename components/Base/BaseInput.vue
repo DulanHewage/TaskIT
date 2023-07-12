@@ -9,10 +9,12 @@
     >
     <input
       :id="id"
+      :value="value"
       :type="type"
       class="outline-none border text-slate-900 text-sm rounded-lg block w-full p-2.5"
       :class="inputlasses"
       :placeholder="placeholder"
+      @input="$emit('input', $event.target.value)"
     />
   </div>
 </template>
@@ -29,6 +31,7 @@ export default {
     label: {
       type: String,
       required: false,
+      default: undefined,
     },
     type: {
       type: String,
@@ -42,6 +45,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    value: undefined,
   },
   computed: {
     inputlasses() {

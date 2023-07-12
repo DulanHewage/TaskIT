@@ -8,3 +8,12 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "DefaultLayout",
+  mounted() {
+    this.$store.dispatch("initTasks");
+  },
+};
+</script>
