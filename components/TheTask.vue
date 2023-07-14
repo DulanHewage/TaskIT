@@ -5,21 +5,27 @@
     <div class="flex justify-between items-center px-4">
       <div class="flex">
         <div class="pr-2 mt-1">
-          <BaseCheckbox />
+          <BaseCheckbox :value="task.completed" @input="changeStatus" />
         </div>
         <div>
-          <div class="text-slate-900 text-base font-semibold">
+          <div
+            class="text-base font-semibold"
+            :class="isDueDatePassed ? 'text-red-600' : 'text-slate-900'"
+          >
             {{ task.text }}
           </div>
-          <div class="flex mt-1 text-xs">
-            <div class="flex items-center text-red-600">
+          <div class="mt-1 text-xs flex items-center">
+            <div
+              class="flex items-center"
+              :class="isDueDatePassed ? 'text-red-600' : 'text-slate-500'"
+            >
               <svg-icon
                 type="mdi"
                 :path="mdiCalendarBlank"
                 class="mr-1"
                 size="18"
               ></svg-icon>
-              <div>6 Apr 2023</div>
+              <div>{{ formattedDueDate }}</div>
             </div>
             <div class="text-slate-500 ml-2">Created {{ createdDaysAgo }}</div>
           </div>
@@ -61,6 +67,7 @@
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiCalendarBlank, mdiDotsVertical } from "@mdi/js";
+
 export default {
   name: "TheTask",
   components: {
@@ -75,20 +82,30 @@ export default {
   data() {
     return {
       showMenu: false,
+      mdiCalendarBlank,
+      mdiDotsVertical,
     };
   },
   computed: {
-    mdiCalendarBlank() {
-      return mdiCalendarBlank;
-    },
-    mdiDotsVertical() {
-      return mdiDotsVertical;
-    },
     createdDaysAgo() {
       const numberOfDays = this.daysSince(new Date(this.task.createdAt));
       if (numberOfDays === 0) return "today";
       if (numberOfDays === 1) return "yesterday";
       return `${numberOfDays} days ago`;
+    },
+    formattedDueDate() {
+      if (this.task.dueDate === null) return "No due date";
+      return new Date(this.task.dueDate).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+    },
+    isDueDatePassed() {
+      if (this.task.dueDate === null) return false;
+      const dueDate = new Date(this.task.dueDate);
+      const currentDate = new Date();
+      return currentDate > dueDate;
     },
   },
   methods: {
@@ -97,6 +114,13 @@ export default {
       const timeDiff = currentDate.getTime() - date.getTime();
       const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
       return daysDiff;
+    },
+    changeStatus(isComplete) {
+      if (isComplete) {
+        this.$store.dispatch("setTaskComplete", this.task.id);
+      } else {
+        this.$store.dispatch("setTaskPending", this.task.id);
+      }
     },
   },
 };

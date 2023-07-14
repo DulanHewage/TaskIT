@@ -12,7 +12,7 @@
     />
     <svg-icon
       type="mdi"
-      :path="checked ? checkIconPath : circleIconPath"
+      :path="checked ? mdiCheckCircleOutline : mdiCircleOutline"
       class="absolute text-teal-600"
     ></svg-icon>
   </div>
@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       checked: this.value,
-      checkIconPath: mdiCheckCircleOutline,
-      circleIconPath: mdiCircleOutline,
+      mdiCheckCircleOutline,
+      mdiCircleOutline,
     };
   },
   methods: {

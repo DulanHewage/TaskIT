@@ -1,24 +1,14 @@
 <template>
   <div>
-    <div class="py-3 px-4 border-b border-b-slate-200 flex items-center">
-      <h2 class="text-base font-medium mr-2 flex items-center">
-        <svg-icon
-          type="mdi"
-          :path="mdiReceiptClockOutline"
-          class="mr-1"
-          size="18"
-        ></svg-icon>
-        Pending
-      </h2>
-      <div
-        class="h-5 w-5 bg-slate-100 rounded-full text-xs flex justify-center items-center text-slate-500"
-      >
-        2
-      </div>
-    </div>
+    <TheTabs
+      :tab="tab"
+      :number-of-pending-tasks="pendingTasks.length"
+      :number-of-completed-tasks="completedTasks.length"
+      @change="changeTab"
+    />
     <div class="pb-2">
       <TheTask
-        v-for="task in $store.getters.allTasks"
+        v-for="task in selectedTasks"
         :key="task.id"
         :task="task"
         @delete="(taskId) => toggleTaskDeleteConfirmation(taskId, true)"
@@ -59,10 +49,10 @@
         </div>
 
         <div
-          class="text-xs text-red-600 italic font-light mt-1"
-          :class="{ 'opacity-0': !showDueDateError }"
+          class="text-xs text-orange-600 italic font-light mt-1"
+          :class="{ 'opacity-0': !showDueDateWarning }"
         >
-          due date must be in today or the future
+          You're setting a due date in the past.
         </div>
       </div>
     </div>
@@ -91,6 +81,7 @@
 import { mdiPlus, mdiReceiptClockOutline } from "@mdi/js";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { nanoid } from "nanoid";
+import { mapGetters } from "vuex";
 export default {
   name: "TheToDo",
   components: {
@@ -98,20 +89,21 @@ export default {
   },
   data() {
     return {
+      mdiReceiptClockOutline,
+      mdiPlus,
       taskText: "",
       showTaskDeleteModal: false,
       selectedTaskId: null,
       isDueDateActive: false,
       dueDate: undefined,
-      showDueDateError: false,
+      showDueDateWarning: false,
+      tab: "pending",
     };
   },
   computed: {
-    mdiPlus() {
-      return mdiPlus;
-    },
-    mdiReceiptClockOutline() {
-      return mdiReceiptClockOutline;
+    ...mapGetters(["completedTasks", "pendingTasks"]),
+    selectedTasks() {
+      return this.tab === "pending" ? this.pendingTasks : this.completedTasks;
     },
   },
   methods: {
@@ -123,7 +115,7 @@ export default {
           text: this.taskText,
           completed: false,
           dueDate: this.dueDate && this.isDueDateActive ? this.dueDate : null,
-          createdAt: new Date(),
+          createdAt: this.fromDateToString(new Date()),
         };
         this.$store.dispatch("addTask", task);
         this.taskText = "";
@@ -153,27 +145,20 @@ export default {
       const today = new Date();
       const dueDate = new Date(e.target.value);
       if (dueDate < today) {
-        // prevent default behaviour
-        e.preventDefault();
-        // set due date to today
-        this.dueDate = fromDateToString(today).split("T")[0];
-
         // show error message
-        this.showDueDateError = true;
-        setTimeout(() => {
-          this.showDueDateError = false;
-        }, 3000);
-      } else {
-        // set due date to selected date
-        this.dueDate = e.target.value;
+        this.showDueDateWarning = true;
       }
+      this.dueDate = e.target.value;
+    },
+    fromDateToString(date) {
       // get date in local time zone
-      function fromDateToString(date) {
-        date = new Date(+date);
-        date.setTime(date.getTime() - date.getTimezoneOffset() * 60000);
-        const dateAsString = date.toISOString().substr(0, 19);
-        return dateAsString;
-      }
+      date = new Date(+date);
+      date.setTime(date.getTime() - date.getTimezoneOffset() * 60000);
+      const dateAsString = date.toISOString().substr(0, 19);
+      return dateAsString.split("T")[0];
+    },
+    changeTab(tabId) {
+      this.tab = tabId;
     },
   },
 };

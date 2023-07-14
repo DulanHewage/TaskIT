@@ -6,6 +6,12 @@ export const getters = {
   allTasks(state) {
     return state.tasks;
   },
+  completedTasks(state) {
+    return state.tasks.filter((task) => task.completed);
+  },
+  pendingTasks(state) {
+    return state.tasks.filter((task) => !task.completed);
+  },
 };
 
 export const mutations = {
@@ -38,6 +44,26 @@ export const actions = {
     commit(
       "setTasks",
       state.tasks.map((item) => (item.id === task.id ? task : item))
+    );
+    dispatch("syncTasksWithLocalStorage");
+  },
+  setTaskComplete({ commit, state, dispatch }, taskId) {
+    // complete task in state and local storage
+    commit(
+      "setTasks",
+      state.tasks.map((item) =>
+        item.id === taskId ? { ...item, completed: true } : item
+      )
+    );
+    dispatch("syncTasksWithLocalStorage");
+  },
+  setTaskPending({ commit, state, dispatch }, taskId) {
+    // set task to pending in state and local storage
+    commit(
+      "setTasks",
+      state.tasks.map((item) =>
+        item.id === taskId ? { ...item, completed: false } : item
+      )
     );
     dispatch("syncTasksWithLocalStorage");
   },
