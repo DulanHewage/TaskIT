@@ -39,7 +39,6 @@
           ref="taskDueDateInput"
           @due-date="(date) => (dueDate = date)"
         />
-        {{ dueDate }}
       </div>
     </div>
     <BaseModal
@@ -87,7 +86,6 @@ export default {
       showTaskDeleteModal: false,
       selectedTaskId: null,
       dueDate: null,
-      showDueDateWarning: false,
       tab: "pending",
       showEditModal: false,
     };
