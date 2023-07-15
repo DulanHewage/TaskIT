@@ -32,7 +32,7 @@
       <h2 class="text-sm mr-2 flex items-center">
         <svg-icon
           type="mdi"
-          :path="mdiReceiptClockOutline"
+          :path="mdiCheckAll"
           class="mr-1"
           size="14"
         ></svg-icon>
@@ -49,7 +49,7 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiReceiptClockOutline } from "@mdi/js";
+import { mdiReceiptClockOutline, mdiCheckAll } from "@mdi/js";
 
 export default {
   name: "TheTabs",
@@ -73,6 +73,7 @@ export default {
   data() {
     return {
       mdiReceiptClockOutline,
+      mdiCheckAll,
     };
   },
 };

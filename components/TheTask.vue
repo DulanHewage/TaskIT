@@ -10,7 +10,10 @@
         <div>
           <div
             class="text-base font-semibold"
-            :class="isDueDatePassed ? 'text-red-600' : 'text-slate-900'"
+            :class="[
+              isDueDatePassed ? 'text-red-600' : 'text-slate-900',
+              strike ? 'strike' : '',
+            ]"
           >
             {{ task.text }}
           </div>
@@ -84,6 +87,7 @@ export default {
       showMenu: false,
       mdiCalendarBlank,
       mdiDotsVertical,
+      strike: false,
     };
   },
   computed: {
@@ -116,12 +120,41 @@ export default {
       return daysDiff;
     },
     changeStatus(isComplete) {
-      if (isComplete) {
-        this.$store.dispatch("setTaskComplete", this.task.id);
-      } else {
-        this.$store.dispatch("setTaskPending", this.task.id);
-      }
+      this.strike = isComplete;
+      // delay the dispatch by 1 second to allow the strike animation to complete
+      setTimeout(
+        () => {
+          if (isComplete) {
+            this.$store.dispatch("setTaskComplete", this.task.id);
+          } else {
+            this.$store.dispatch("setTaskPending", this.task.id);
+          }
+        },
+        isComplete ? 1000 : 500
+      );
     },
   },
 };
 </script>
+
+<style lang="scss">
+.strike {
+  @apply relative;
+  &::after {
+    content: "";
+    @apply absolute w-full h-[1px] bg-current left-0 top-1/2;
+    animation-name: strike;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(0.5, -0.01, 0, 1.26);
+    animation-fill-mode: forwards;
+  }
+}
+@keyframes strike {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+</style>

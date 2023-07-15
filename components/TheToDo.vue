@@ -6,13 +6,15 @@
       :number-of-completed-tasks="completedTasks.length"
       @change="changeTab"
     />
-    <div class="pb-2">
-      <TheTask
-        v-for="task in selectedTasks"
-        :key="task.id"
-        :task="task"
-        @delete="(taskId) => toggleTaskDeleteConfirmation(taskId, true)"
-      />
+    <div class="pb-2 min-h-[400px] flex flex-col justify-between">
+      <div>
+        <TheTask
+          v-for="task in selectedTasks"
+          :key="task.id"
+          :task="task"
+          @delete="(taskId) => toggleTaskDeleteConfirmation(taskId, true)"
+        />
+      </div>
       <div class="px-4 mt-5">
         <div class="flex items-center">
           <form class="w-full" @submit.prevent="addTask">
@@ -32,12 +34,18 @@
             ></SvgIcon>
           </BaseButton>
         </div>
+
         <div class="flex items-center mt-2">
           <div class="flex items-center mr-2">
             <label for="due-date" class="text-sm text-slate-700 mr-1"
               >Set a due date
             </label>
-            <input id="due-date" v-model="isDueDateActive" type="checkbox" />
+            <input
+              id="due-date"
+              v-model="isDueDateActive"
+              type="checkbox"
+              class="accent-teal-600"
+            />
           </div>
           <input
             v-model="dueDate"
