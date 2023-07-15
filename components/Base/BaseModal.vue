@@ -5,6 +5,7 @@
     :aria-hidden="!show"
     class="fixed top-0 left-0 right-0 z-50 w-full h-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 max-h-full bg-slate-800 bg-opacity-50 flex justify-center items-center"
     :class="{ hidden: !show }"
+    @click.self="closeModal"
   >
     <div class="relative w-full max-w-2xl max-h-full">
       <!-- Modal content -->

@@ -6,13 +6,14 @@
       :number-of-completed-tasks="completedTasks.length"
       @change="changeTab"
     />
-    <div class="pb-2 min-h-[400px] flex flex-col justify-between">
+    <div class="pb-2 flex flex-col justify-between">
       <div>
         <TheTask
-          v-for="task in selectedTasks"
+          v-for="task in taskList"
           :key="task.id"
           :task="task"
           @delete="(taskId) => toggleTaskDeleteConfirmation(taskId, true)"
+          @edit="(taskId) => toggleTaskUpdateModal(taskId, true)"
         />
       </div>
       <div class="px-4 mt-5">
@@ -25,7 +26,7 @@
               class="w-full"
             />
           </form>
-          <BaseButton class="ml-2" circle @click="addTask">
+          <BaseButton class="ml-3" circle @click="addTask">
             <SvgIcon
               type="mdi"
               :path="mdiPlus"
@@ -34,34 +35,11 @@
             ></SvgIcon>
           </BaseButton>
         </div>
-
-        <div class="flex items-center mt-2">
-          <div class="flex items-center mr-2">
-            <label for="due-date" class="text-sm text-slate-700 mr-1"
-              >Set a due date
-            </label>
-            <input
-              id="due-date"
-              v-model="isDueDateActive"
-              type="checkbox"
-              class="accent-teal-600"
-            />
-          </div>
-          <input
-            v-model="dueDate"
-            type="date"
-            class="text-sm text-teal-600 disabled:text-slate-500"
-            :disabled="!isDueDateActive"
-            @change="setDueDate"
-          />
-        </div>
-
-        <div
-          class="text-xs text-orange-600 italic font-light mt-1"
-          :class="{ 'opacity-0': !showDueDateWarning }"
-        >
-          You're setting a due date in the past.
-        </div>
+        <TaskDueDateInput
+          ref="taskDueDateInput"
+          @due-date="(date) => (dueDate = date)"
+        />
+        {{ dueDate }}
       </div>
     </div>
     <BaseModal
@@ -83,6 +61,12 @@
         </div>
       </template>
     </BaseModal>
+    <TaskEditModal
+      v-if="selectedTaskId"
+      :show="showEditModal"
+      :task-id="selectedTaskId"
+      @close="toggleTaskUpdateModal(null, false)"
+    />
   </div>
 </template>
 <script>
@@ -102,15 +86,15 @@ export default {
       taskText: "",
       showTaskDeleteModal: false,
       selectedTaskId: null,
-      isDueDateActive: false,
-      dueDate: undefined,
+      dueDate: null,
       showDueDateWarning: false,
       tab: "pending",
+      showEditModal: false,
     };
   },
   computed: {
     ...mapGetters(["completedTasks", "pendingTasks"]),
-    selectedTasks() {
+    taskList() {
       return this.tab === "pending" ? this.pendingTasks : this.completedTasks;
     },
   },
@@ -122,13 +106,14 @@ export default {
           id: nanoid(6),
           text: this.taskText,
           completed: false,
-          dueDate: this.dueDate && this.isDueDateActive ? this.dueDate : null,
+          dueDate: this.dueDate,
           createdAt: this.fromDateToString(new Date()),
         };
         this.$store.dispatch("addTask", task);
         this.taskText = "";
-        this.dueDate = undefined;
-        this.isDueDateActive = false;
+        this.dueDate = null;
+        // call reset method on TaskDueDateInput component
+        this.$refs.taskDueDateInput.reset();
       }
     },
     closeTaskModal() {
@@ -148,16 +133,6 @@ export default {
         this.showTaskDeleteModal = false;
       }
     },
-    setDueDate(e) {
-      // if date is in the past, set to today
-      const today = new Date();
-      const dueDate = new Date(e.target.value);
-      if (dueDate < today) {
-        // show error message
-        this.showDueDateWarning = true;
-      }
-      this.dueDate = e.target.value;
-    },
     fromDateToString(date) {
       // get date in local time zone
       date = new Date(+date);
@@ -167,6 +142,15 @@ export default {
     },
     changeTab(tabId) {
       this.tab = tabId;
+    },
+    toggleTaskUpdateModal(taskId, show) {
+      if (show) {
+        this.selectedTaskId = taskId;
+        this.showEditModal = true;
+      } else {
+        this.selectedTaskId = null;
+        this.showEditModal = false;
+      }
     },
   },
 };

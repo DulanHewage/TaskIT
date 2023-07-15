@@ -35,7 +35,7 @@
         </div>
       </div>
       <div
-        class="flex items-center py-3 px-3 relative rounded-full hover:bg-slate-200"
+        class="flex items-center p-2 relative rounded-full hover:bg-slate-200"
         role="button"
         @click="showMenu = !showMenu"
       >
@@ -51,7 +51,7 @@
         >
           <div
             class="py-2 px-4 w-full hover:bg-slate-100"
-            @click="$emit('edit')"
+            @click="$emit('edit', task.id)"
           >
             Edit
           </div>
