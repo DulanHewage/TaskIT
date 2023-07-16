@@ -37,13 +37,11 @@
           </button>
         </div>
         <!-- Modal body -->
-        <div class="p-6 space-y-6">
+        <div v-if="$slots.default" class="p-6 space-y-6 border-b">
           <slot></slot>
         </div>
         <!-- Modal footer -->
-        <div
-          class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b"
-        >
+        <div class="flex items-center p-6 space-x-2 border-gray-200 rounded-b">
           <slot name="footer"></slot>
         </div>
       </div>

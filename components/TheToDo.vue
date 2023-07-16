@@ -43,7 +43,7 @@
     </div>
     <BaseModal
       :show="showTaskDeleteModal"
-      title="are you sure you want to delete this task?"
+      title="Are you sure you want to delete this task?"
       @close="toggleTaskDeleteConfirmation(null, false)"
     >
       <template #footer>
