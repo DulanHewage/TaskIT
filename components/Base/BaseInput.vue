@@ -25,7 +25,7 @@ export default {
   props: {
     id: {
       type: String,
-      required: true,
+      required: false,
       default: "input" + Math.floor(Math.random() * 100000),
     },
     label: {

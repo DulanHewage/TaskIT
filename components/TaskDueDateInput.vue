@@ -33,12 +33,21 @@
 <script>
 export default {
   name: "TaskDueDateInput",
+  props: {
+    value: undefined,
+  },
   data() {
     return {
       isDueDateActive: false,
       dueDate: null,
       showDueDateWarning: false,
     };
+  },
+  mounted() {
+    if (this.value) {
+      this.isDueDateActive = true;
+      this.dueDate = this.value;
+    }
   },
   methods: {
     setDueDate(e) {
