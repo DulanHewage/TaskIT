@@ -1,15 +1,6 @@
 <template>
   <div>
     <div class="flex items-center">
-      <div class="flex items-center">
-        <!-- <input
-          id="due-date"
-          v-model="isDueDateActive"
-          type="checkbox"
-          class="accent-teal-600"
-          @change="deactivateDueDate"
-        /> -->
-      </div>
       <input
         v-model="dueDate"
         type="date"
@@ -31,7 +22,10 @@
 export default {
   name: "TaskDueDateInput",
   props: {
-    value: undefined,
+    value: {
+      type: String,
+      default: null,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -42,6 +36,11 @@ export default {
       dueDate: null,
       showDueDateWarning: false,
     };
+  },
+  watch: {
+    value() {
+      this.dueDate = this.value;
+    },
   },
   mounted() {
     if (this.value) {

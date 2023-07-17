@@ -2,11 +2,26 @@
   <BaseModal :show="show" title="Edit Task" @close="$emit('close')">
     <form @submit="save">
       <BaseInput v-model="taskText" type="text" placeholder="Enter task" />
-      <TaskDueDateInput
-        v-if="taskDueDate"
-        :value="taskDueDate"
-        @due-date="taskDueDate = $event"
-      />
+      <div class="mt-2 flex items-start">
+        <div class="flex items-center mr-2">
+          <input
+            id="due-date-task-edit"
+            v-model="isDueDateActive"
+            type="checkbox"
+            class="accent-teal-600 mr-2"
+          />
+          <label
+            for="due-date-task-edit"
+            class="text-sm text-slate-700 mr-1 cursor-pointer"
+            >Set a due date
+          </label>
+        </div>
+        <TaskDueDateInput
+          :class="{ 'opacity-0': !isDueDateActive }"
+          :value="taskDueDate"
+          @due-date="(date) => (taskDueDate = date)"
+        />
+      </div>
     </form>
     <template #footer>
       <div class="flex justify-end items-center w-full">
@@ -36,6 +51,7 @@ export default {
     return {
       taskText: "",
       taskDueDate: null,
+      isDueDateActive: false,
     };
   },
   mounted() {
@@ -49,11 +65,17 @@ export default {
       if (selectedTask) {
         this.taskText = selectedTask.text;
         this.taskDueDate = selectedTask.dueDate;
+
+        if (selectedTask.dueDate) {
+          this.isDueDateActive = true;
+        }
       }
     },
     save(e) {
       // form submittion is used to work with the enter key
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
       const selectedTask = this.$store.state.tasks.find(
         (task) => task.id === this.taskId
       );
@@ -61,7 +83,7 @@ export default {
       this.$store.dispatch("updateTask", {
         ...selectedTask,
         text: this.taskText,
-        dueDate: this.taskDueDate,
+        dueDate: this.isDueDateActive ? this.taskDueDate : null,
       });
       // close modal
       this.$emit("close");
