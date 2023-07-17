@@ -51,22 +51,40 @@
           class="absolute right-0 top-0 mt-10 bg-white rounded-lg shadow-lg w-[180px] z-10"
         >
           <div
-            class="py-2 px-4 w-full hover:bg-slate-100"
+            class="flex items-center py-2 px-4 w-full hover:bg-slate-100"
             @click="$emit('edit', task.id)"
           >
-            Edit
+            <SvgIcon
+              type="mdi"
+              :path="mdiSquareEditOutline"
+              size="16"
+              class="mr-2"
+            />
+            <span>Edit</span>
           </div>
           <div
-            class="py-2 px-4 w-full hover:bg-slate-100"
+            class="flex items-center py-2 px-4 w-full hover:bg-slate-100"
             @click="$emit('duplicate', task.id)"
           >
-            Duplicate
+            <SvgIcon
+              type="mdi"
+              :path="mdiContentDuplicate"
+              size="16"
+              class="mr-2"
+            />
+            <span>Duplicate</span>
           </div>
           <div
-            class="py-2 px-4 hover:bg-slate-100"
+            class="flex items-center py-2 px-4 hover:bg-slate-100"
             @click="$emit('delete', task.id)"
           >
-            Delete
+            <SvgIcon
+              type="mdi"
+              :path="mdiDeleteAlertOutline"
+              size="16"
+              class="mr-2"
+            />
+            <span>Delete</span>
           </div>
         </div>
       </div>
@@ -76,7 +94,13 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiCalendarBlank, mdiDotsVertical } from "@mdi/js";
+import {
+  mdiCalendarBlank,
+  mdiDotsVertical,
+  mdiSquareEditOutline,
+  mdiContentDuplicate,
+  mdiDeleteAlertOutline,
+} from "@mdi/js";
 export default {
   name: "TheTask",
   components: {
@@ -93,6 +117,9 @@ export default {
       showMenu: false,
       mdiCalendarBlank,
       mdiDotsVertical,
+      mdiSquareEditOutline,
+      mdiContentDuplicate,
+      mdiDeleteAlertOutline,
       strike: false,
     };
   },
