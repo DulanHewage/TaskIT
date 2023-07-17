@@ -14,6 +14,7 @@
           :task="task"
           @delete="(taskId) => toggleTaskDeleteConfirmation(taskId, true)"
           @edit="(taskId) => toggleTaskUpdateModal(taskId, true)"
+          @duplicate="duplicateTask"
         />
       </div>
       <div class="px-4 mt-5">
@@ -89,6 +90,7 @@ import { mdiPlus, mdiReceiptClockOutline } from "@mdi/js";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { nanoid } from "nanoid";
 import { mapGetters } from "vuex";
+import { fromDateToString } from "@/helpers";
 export default {
   name: "TheToDo",
   components: {
@@ -122,7 +124,7 @@ export default {
           text: this.taskText,
           completed: false,
           dueDate: this.isDueDateActive ? this.dueDate : null,
-          createdAt: this.fromDateToString(new Date()),
+          createdAt: fromDateToString(new Date()),
         };
         this.$store.dispatch("addTask", task);
         this.taskText = "";
@@ -149,13 +151,6 @@ export default {
         this.showTaskDeleteModal = false;
       }
     },
-    fromDateToString(date) {
-      // get date in local time zone
-      date = new Date(+date);
-      date.setTime(date.getTime() - date.getTimezoneOffset() * 60000);
-      const dateAsString = date.toISOString().substr(0, 19);
-      return dateAsString.split("T")[0];
-    },
     changeTab(tabId) {
       this.tab = tabId;
     },
@@ -167,6 +162,15 @@ export default {
         this.selectedTaskId = null;
         this.showEditModal = false;
       }
+    },
+    duplicateTask(taskId) {
+      const task = this.$store.state.tasks.find((task) => task.id === taskId);
+      const newTask = {
+        ...task,
+        id: nanoid(6),
+        createdAt: fromDateToString(new Date()),
+      };
+      this.$store.dispatch("addTask", newTask);
     },
   },
 };

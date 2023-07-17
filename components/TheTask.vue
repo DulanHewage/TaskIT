@@ -35,6 +35,7 @@
         </div>
       </div>
       <div
+        v-click-outside="() => (showMenu = false)"
         class="flex items-center p-2 relative rounded-full hover:bg-slate-200"
         role="button"
         @click="showMenu = !showMenu"
@@ -56,6 +57,12 @@
             Edit
           </div>
           <div
+            class="py-2 px-4 w-full hover:bg-slate-100"
+            @click="$emit('duplicate', task.id)"
+          >
+            Duplicate
+          </div>
+          <div
             class="py-2 px-4 hover:bg-slate-100"
             @click="$emit('delete', task.id)"
           >
@@ -70,7 +77,6 @@
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiCalendarBlank, mdiDotsVertical } from "@mdi/js";
-
 export default {
   name: "TheTask",
   components: {
