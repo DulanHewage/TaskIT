@@ -1,23 +1,20 @@
 <template>
   <div>
-    <div class="flex items-center mt-2">
-      <div class="flex items-center mr-2">
-        <label for="due-date" class="text-sm text-slate-700 mr-1"
-          >Set a due date
-        </label>
-        <input
+    <div class="flex items-center">
+      <div class="flex items-center">
+        <!-- <input
           id="due-date"
           v-model="isDueDateActive"
           type="checkbox"
           class="accent-teal-600"
           @change="deactivateDueDate"
-        />
+        /> -->
       </div>
       <input
         v-model="dueDate"
         type="date"
         class="text-sm text-teal-600 disabled:text-slate-500"
-        :disabled="!isDueDateActive"
+        :disabled="disabled"
         @change="setDueDate"
       />
     </div>
@@ -35,17 +32,19 @@ export default {
   name: "TaskDueDateInput",
   props: {
     value: undefined,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      isDueDateActive: false,
       dueDate: null,
       showDueDateWarning: false,
     };
   },
   mounted() {
     if (this.value) {
-      this.isDueDateActive = true;
       this.dueDate = this.value;
     }
   },
@@ -72,7 +71,6 @@ export default {
       }
     },
     reset() {
-      this.isDueDateActive = false;
       this.dueDate = null;
       this.showDueDateWarning = false;
     },

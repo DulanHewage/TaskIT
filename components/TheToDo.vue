@@ -35,10 +35,26 @@
             ></SvgIcon>
           </BaseButton>
         </div>
-        <TaskDueDateInput
-          ref="taskDueDateInput"
-          @due-date="(date) => (dueDate = date)"
-        />
+        <div class="mt-2 flex items-start">
+          <div class="flex items-center mr-2">
+            <input
+              id="due-date"
+              v-model="isDueDateActive"
+              type="checkbox"
+              class="accent-teal-600 mr-2"
+            />
+            <label
+              for="due-date"
+              class="text-sm text-slate-700 mr-1 cursor-pointer"
+              >Set a due date
+            </label>
+          </div>
+          <TaskDueDateInput
+            ref="taskDueDateInput"
+            :class="{ 'opacity-0': !isDueDateActive }"
+            @due-date="(date) => (dueDate = date)"
+          />
+        </div>
       </div>
     </div>
     <BaseModal
@@ -88,6 +104,7 @@ export default {
       dueDate: null,
       tab: "pending",
       showEditModal: false,
+      isDueDateActive: false,
     };
   },
   computed: {
@@ -104,12 +121,13 @@ export default {
           id: nanoid(6),
           text: this.taskText,
           completed: false,
-          dueDate: this.dueDate,
+          dueDate: this.isDueDateActive ? this.dueDate : null,
           createdAt: this.fromDateToString(new Date()),
         };
         this.$store.dispatch("addTask", task);
         this.taskText = "";
         this.dueDate = null;
+        this.isDueDateActive = false;
         // call reset method on TaskDueDateInput component
         this.$refs.taskDueDateInput.reset();
       }
