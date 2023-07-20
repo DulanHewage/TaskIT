@@ -35,7 +35,7 @@ TaskIT is a simple yet powerful to-do application that helps you stay organized 
 
 - Unit/Component Tests: Critical components are thoroughly tested, ensuring reliability and stability throughout the application.
 
-## 🖥️ Live demo - https://task-it-m11q.vercel.app/
+## 🖥️ Live demo - https://task-it-gamma.vercel.app/
 
 ## Installation (Local)
 
