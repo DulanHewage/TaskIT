@@ -21,7 +21,7 @@ TaskIT is a simple yet powerful to-do application that helps you stay organized 
 
 7. Past Due Date Highlight: TaskIT automatically highlights tasks that have passed their due date, keeping you aware of urgent items.
 
-## Technologies Used
+## Techstack
 
 - Nuxt 2
 - Vuex
