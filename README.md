@@ -1,6 +1,7 @@
-# TaskIT
-
+# TaskIT 📝
 TaskIT and take control of your tasks today.
+
+![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=TaskIT)
 
 TaskIT is a simple yet powerful to-do application that helps you stay organized and on top of your tasks. Built with Nuxt 2 as the Vue.js 2 framework, Vuex for state management, and TailwindCSS for styling, TaskIT offers a seamless and efficient user experience.
 
@@ -22,33 +23,45 @@ TaskIT is a simple yet powerful to-do application that helps you stay organized 
 
 ## Technologies Used
 
-Nuxt 2
-Vuex
-TailwindCSS
+- Nuxt 2
+- Vuex
+- TailwindCSS
 
 ## Other Features
 
-Fully Mobile Responsive
+- Fully Mobile Responsive
 
-Local Storage: Your tasks are securely stored in the browser's local storage, ensuring data persistence across sessions.
+- Local Storage: Your tasks are securely stored in the browser's local storage, ensuring data persistence across sessions.
 
-Unit/Component Tests: Critical components are thoroughly tested, ensuring reliability and stability throughout the application.
+- Unit/Component Tests: Critical components are thoroughly tested, ensuring reliability and stability throughout the application.
 
---
+## 🖥️ Live demo - https://task-it-m11q.vercel.app/
 
-Link to live demo or deployment -
+## Installation (Local)
 
-Installation (Local)
+### install dependencies
 
-# install dependencies
-
+```bash
 $ npm install
+```
 
-# serve with hot reload at localhost:3000
+### serve with hot reload at localhost:3000
 
+```bash
 $ npm run dev
+```
 
-# build for production and launch server
+### build for production and launch server
 
-$ npm run build
-$ npm run start
+```bash
+npm run build
+npm run start
+```
+
+### Running Tests
+
+To run tests, run the following command
+
+```bash
+  npm run test
+```
