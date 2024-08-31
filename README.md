@@ -3,23 +3,19 @@ TaskIT and take control of your tasks today.
 
 ![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=TaskIT)
 
-TaskIT is a simple yet powerful to-do application that helps you stay organized and on top of your tasks. Built with Nuxt 2 as the Vue.js 2 framework, Vuex for state management, and TailwindCSS for styling, TaskIT offers a seamless and efficient user experience.
+A nice looking to-do application built with Nuxt 2 (Vue.js 2), Vuex for state management, and TailwindCSS for styling. 🙃
 
 ## Features
 
-1. Create Tasks: Quickly add new tasks to your to-do list, ensuring that nothing slips through the cracks.
+1. **Create, Update, Delete Tasks**
 
-2. Update Tasks: Easily modify existing tasks to keep your to-do list up to date with any changes.
+4. **Pending & Completed Tab Views**
 
-3. Delete Tasks: With a confirmation modal, TaskIT allows you to remove completed or unnecessary tasks effortlessly.
+5. **Due Date Option**: Set due dates for your tasks
 
-4. Pending & Completed Tab Views: Organize your tasks efficiently by switching between "Pending" and "Completed" tabs.
+6. **Duplicate Task**: Duplicate existing tasks and customize them as needed
 
-5. Due Date Option: Stay organized with the ability to set due dates for your tasks, ensuring timely completion.
-
-6. Duplicate Task: Simplify task creation by duplicating existing tasks and customizing them as needed.
-
-7. Past Due Date Highlight: TaskIT automatically highlights tasks that have passed their due date, keeping you aware of urgent items.
+7. **Past Due Date Highlight**: TaskIT automatically highlights tasks that have passed their due date
 
 ## Techstack
 
