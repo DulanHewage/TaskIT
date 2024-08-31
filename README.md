@@ -27,10 +27,10 @@ A nice looking to-do application built with Nuxt 2 (Vue.js 2), Vuex for state ma
 
 - Fully Mobile Responsive
 
-- Local Storage: Your tasks are securely stored in the browser's local storage, ensuring data persistence across sessions.
+- Local Storage: Tasks are stored in the browser's local storage.
 
-- Unit/Component Tests: Critical components are thoroughly tested, ensuring reliability and stability throughout the application.
-
+- Component Tests
+  
 ## 🖥️ Live demo - https://task-it-gamma.vercel.app/
 
 ## Installation (Local)
